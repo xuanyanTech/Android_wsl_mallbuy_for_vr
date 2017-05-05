@@ -25,7 +25,7 @@
         Id="2"
         SortId="2"
         AppId="wx93a19c15755ef6fc"
-        AppSecret=""
+        AppSecret="ae03b622634c01e94659d75da2e1619f"
         BypassApproval="false"
         Enable="true" />
     
@@ -33,7 +33,7 @@
         Id="3"
         SortId="3"
         AppId="wx93a19c15755ef6fc"
-        AppSecret=""
+        AppSecret="ae03b622634c01e94659d75da2e1619f"
         BypassApproval="false"
         Enable="true" />
         
@@ -41,7 +41,7 @@
         Id="6"
         SortId="6"
         AppId="wx93a19c15755ef6fc"
-        AppSecret=""
+        AppSecret="ae03b622634c01e94659d75da2e1619f"
         Enable="true" />
     
 	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
