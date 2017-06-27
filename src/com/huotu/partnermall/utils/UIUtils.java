@@ -60,6 +60,8 @@ public class UIUtils {
         if (null == menuList || menuList.isEmpty()) {
             Log.e("UIUtils","未加载商家定义的菜单");
         } else {
+            //添加清除缓存菜单
+            addClearCacheMenu(menuList);
             //按分组排序
             menuSort(menuList);
             int size = menuList.size();
@@ -268,5 +270,16 @@ public class UIUtils {
         }
     }
 
-
+    /***
+     * 添加清除缓存菜单
+     */
+    private static void addClearCacheMenu(List<MenuBean> menus){
+        MenuBean menu = new MenuBean();
+        menu.setMenuName("清除缓存");
+        menu.setMenuGroup("888");
+        menu.setMenuIcon("home_menu_clearcache");
+        menu.setMenuTag("");
+        menu.setMenuUrl("http://www.clearcache.com");
+        menus.add(menu);
+    }
 }

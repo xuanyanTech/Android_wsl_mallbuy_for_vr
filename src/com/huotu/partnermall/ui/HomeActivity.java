@@ -874,18 +874,17 @@ public class HomeActivity extends BaseActivity
             //加载页面
             case Constants.LOAD_PAGE_MESSAGE_TAG:
             {//加载菜单页面
-
                 String url = msg.obj.toString ();
                 if( url.toLowerCase().contains("http://www.bindweixin.com") ){
                     //绑定微信
                     callWeixin("");
-                }
-                else if( url.toLowerCase().trim().contains("http://www.bindphone.com") ){
+                }else if( url.toLowerCase().trim().contains("http://www.bindphone.com") ){
                     //绑定手机
                     //callPhone();
-                }
-                else if( url.toLowerCase().contains("http://www.dzd.com") ){
+                }else if( url.toLowerCase().contains("http://www.dzd.com") ){
                     //openSis();
+                }else if(url.toLowerCase().contains("http://www.clearcache.com")){
+                    clearVRCache();
                 }else {
                     pageWeb.loadUrl(url , SignUtil.signHeader() );
                 }
@@ -1788,6 +1787,11 @@ public class HomeActivity extends BaseActivity
             }
         }
 
+    /***
+     * 清除VR缓存
+     */
+    public void clearVRCache(){
 
+        }
 }
 
