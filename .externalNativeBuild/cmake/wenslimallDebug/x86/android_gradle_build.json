@@ -1,0 +1,41 @@
+
+{
+	"buildFiles" : 
+	[
+		"/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"/Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake --build /Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallDebug/x86 --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"seecool-Debug-x86" : 
+		{
+			"abi" : "x86",
+			"artifactName" : "seecool",
+			"buildCommand" : "/Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake --build /Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallDebug/x86 --target seecool",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=i686-none-linux-android --gcc-toolchain=/Users/Shoon/Library/Android/sdk/ndk-bundle/toolchains/x86-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/Shoon/Library/Android/sdk/ndk-bundle/platforms/android-9/arch-x86  -Dseecool_EXPORTS -isystem /Users/Shoon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /Users/Shoon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/x86/include -isystem /Users/Shoon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/cpp/seecool.cpp",
+					"workingDirectory" : "/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallDebug/x86"
+				}
+			],
+			"output" : "/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/build/intermediates/cmake/wenslimall/debug/obj/x86/libseecool.so",
+			"toolchain" : "10408915724308246823"
+		}
+	},
+	"toolchains" : 
+	{
+		"10408915724308246823" : 
+		{
+			"cCompilerExecutable" : "/Users/Shoon/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/Users/Shoon/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+		}
+	}
+}

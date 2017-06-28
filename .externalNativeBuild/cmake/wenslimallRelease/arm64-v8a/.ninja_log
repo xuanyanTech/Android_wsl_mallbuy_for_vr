@@ -1,0 +1,9 @@
+# ninja log v5
+0	216	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	2e893f3b13c209c9
+216	346	0	../../../../build/intermediates/cmake/wenslimall/release/obj/arm64-v8a/libseecool.so	8c84abf296a3efef
+0	202	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	2e893f3b13c209c9
+202	347	0	../../../../build/intermediates/cmake/wenslimall/release/obj/arm64-v8a/libseecool.so	8c84abf296a3efef
+1	226	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	2e893f3b13c209c9
+226	323	0	../../../../build/intermediates/cmake/wenslimall/release/obj/arm64-v8a/libseecool.so	8c84abf296a3efef
+1	209	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	2e893f3b13c209c9
+209	305	0	../../../../build/intermediates/cmake/wenslimall/release/obj/arm64-v8a/libseecool.so	8c84abf296a3efef

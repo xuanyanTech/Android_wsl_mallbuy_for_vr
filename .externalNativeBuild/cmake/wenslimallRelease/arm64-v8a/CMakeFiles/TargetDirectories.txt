@@ -1,0 +1,3 @@
+/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/arm64-v8a/CMakeFiles/seecool.dir
