@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:id="@+id/rlroot"
+    tools:context="com.huotu.partnermall.ui.login.BindPhoneActivity">
+
+    <RelativeLayout
+        android:id="@+id/bindPhoneActivity_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/title_index"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/bindPhoneActivity_header"
+        android:background="#f5f5f5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.huotu.android.library.libedittext.EditText
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/edtPhone"
+        android:maxLength="11"
+        android:inputType="phone"
+        android:hint="请输入手机号"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+    <com.huotu.android.library.libedittext.EditText
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/edtPhone"
+        android:id="@+id/edtCode"
+        android:hint="请输入验证码"
+        android:inputType="number"
+        android:layout_alignLeft="@id/edtPhone"
+        android:layout_toLeftOf="@+id/tvGetCode"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+    <TextView
+        android:id="@+id/tvGetCode"
+        android:padding="8dp"
+        android:text="60S"
+        android:layout_marginLeft="1dp"
+        android:background="#D1D1D1"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_alignTop="@id/edtCode"
+        android:layout_alignRight="@id/edtPhone"
+        android:layout_width="80dp"
+        android:layout_height="45dp"/>
+
+    <TextView
+        android:layout_below="@id/tvGetCode"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tvNoCode"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:text="无法获得验证码？"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnBind"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tvNoCode"
+        android:layout_alignLeft="@id/edtCode"
+        android:layout_alignRight="@id/tvGetCode"
+        android:text="绑定手机"
+        android:textSize="20sp"
+        android:background="#FF3D00"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:id="@+id/tvTip"
+        android:layout_below="@id/btnBind"
+        android:layout_alignLeft="@id/edtCode"
+        android:text="提示："
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_below="@id/tvTip"
+        android:layout_alignLeft="@id/edtCode"
+        android:text="绑定手机后，可以快速找回支付密码，接受账户异常变动提醒"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
