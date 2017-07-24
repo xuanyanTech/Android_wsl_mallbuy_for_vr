@@ -53,10 +53,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:drawableTop="@drawable/ar"
             android:gravity="center"
             android:maxLines="1"
-            android:padding="10dp"
-            android:text="AR"
+            android:padding="5dp"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/main_title_text_size" />
 

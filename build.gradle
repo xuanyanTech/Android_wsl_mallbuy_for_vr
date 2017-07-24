@@ -48,17 +48,11 @@ android {
 
 
     signingConfigs {
-        /*wenslimall {
+        wenslimall {
             keyAlias 'wenslimall'
             keyPassword 'wenslimall'
             storeFile file('wensli/wenslimall.jks')
             storePassword 'wenslimall'
-        }*/
-        wenslimall {
-            keyAlias 'wenslimallunity'
-            keyPassword '8520123'
-            storeFile file('wensli/wenslimallunity.jks')
-            storePassword '8520123'
         }
     }
     externalNativeBuild {

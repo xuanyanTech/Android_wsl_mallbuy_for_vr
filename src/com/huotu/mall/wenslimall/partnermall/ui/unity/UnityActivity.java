@@ -282,7 +282,7 @@ public class UnityActivity extends BaseActivity implements UnityView {
                             File[] files = mRxDownload.getRealFiles(url);
                             if (files != null) {
                                 File file = files[0];
-                                if (type.equals(Event.VIDEO))
+                               if (type.equals(Event.VIDEO))
                                     presenter.videoToUnity(file.getPath(), data);
                                 else if (type.equals(Event.MODEL))
                                     presenter.unzip(file.getPath(), Event.AR_FILE, data);

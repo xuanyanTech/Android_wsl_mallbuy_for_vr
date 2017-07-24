@@ -1432,7 +1432,7 @@ public class HomeActivity extends BaseActivity
         VolleyUtil.getRequestQueue().add(request);
     }
 
-    static class MyGetUserInfoListener implements Response.Listener<AuthMallModel> {
+    private static class MyGetUserInfoListener implements Response.Listener<AuthMallModel> {
         WeakReference<HomeActivity> ref;
 
         MyGetUserInfoListener(HomeActivity act) {

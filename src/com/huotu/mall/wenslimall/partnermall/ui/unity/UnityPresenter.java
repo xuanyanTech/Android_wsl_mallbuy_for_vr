@@ -116,10 +116,12 @@ class UnityPresenter extends BasePresenter<UnityView> {
         }
         File zipFile = new File(zipFilePath);
         /**创建解压缩文件保存的路径*/
+        unzipFilePath = unzipFilePath + data.getId();
         File unzipFileDir = new File(unzipFilePath);
         if (!unzipFileDir.exists()) {
             unzipFileDir.mkdirs();
         }
+
         //开始解压
         ZipEntry entry = null;
         String entryFilePath = null;
@@ -129,6 +131,7 @@ class UnityPresenter extends BasePresenter<UnityView> {
         BufferedOutputStream bos = null;
         ZipFile zip = new ZipFile(zipFile);
         Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zip.entries();
+
         //循环对压缩包里的每一个文件进行解压
         while (entries.hasMoreElements()) {
             entry = entries.nextElement();
@@ -162,18 +165,19 @@ class UnityPresenter extends BasePresenter<UnityView> {
 
     private void checkUrl(Context mContext, GiftPathEntity entity) {
         boolean goOn = true;
-        String filePath = Event.AR_FILE + entity.getId() + entity.getAr_url()
+        String fileType = entity.getAr_url()
                 .substring(entity.getAr_url().lastIndexOf("."), entity.getAr_url().length());
+        fileType = fileType.contains(".zip") ? "" : fileType;
+        String filePath = Event.AR_FILE + entity.getId() + fileType;
         boolean is = Helper.fileIsExists(filePath);
+        if (entity.getAr_type().equals(Event.VIDEO)) {
+            info.setType("1");
+        } else if (entity.getAr_type().equals(Event.MODEL)) {
+            info.setType("0");
+        }
+        String arName = entity.getAr_name();
+        info.setModelName(arName != null && !arName.equals("") ? arName : entity.getName());
         if (is) {
-            info.setModelName(entity.getName());
-            String type = "1";
-            if (entity.getAr_type().equals("video")) {
-                type = "1";
-            } else if (entity.getAr_type().equals("model")) {
-                type = "0";
-            }
-            info.setType(type);
             info.setPath(filePath);
             String jsonStr = new Gson().toJson(info);
             EventBus.getDefault().postSticky(new PhotoPathEvent(jsonStr, entity.getGiftData()));
@@ -183,12 +187,6 @@ class UnityPresenter extends BasePresenter<UnityView> {
         if (goOn) {
             download(mContext, entity.getAr_url(), entity.getId());
             getMvpView().checkFile(entity.getAr_url(), entity.getAr_type(), entity.getGiftData());
-            if (entity.getAr_type().equals(Event.VIDEO)) {
-                info.setType("1");
-            } else if (entity.getAr_type().equals(Event.MODEL)) {
-                info.setType("0");
-            }
-            info.setModelName(entity.getName());
         }
     }
 }

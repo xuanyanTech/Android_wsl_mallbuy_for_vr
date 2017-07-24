@@ -16,7 +16,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * on 2016/8/16.
  */
 public class AppClient {
-    private static final String BASETESTURL = "http://183.129.165.54:8081/api/";
+    private static final String BASETESTURL = "http://www.silkafx.com:8081/api/";
     private static final String FILEPATH = "";
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor
             (new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build();

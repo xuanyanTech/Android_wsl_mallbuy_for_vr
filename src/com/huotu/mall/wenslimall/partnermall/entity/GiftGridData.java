@@ -13,6 +13,15 @@ public class GiftGridData implements Serializable {
     private String downloadUrl;
     private String type;
     private String webUrl;
+    private String ar_name;
+
+    public String getAr_name() {
+        return ar_name;
+    }
+
+    public void setAr_name(String ar_name) {
+        this.ar_name = ar_name;
+    }
 
     public int getId() {
         return id;
