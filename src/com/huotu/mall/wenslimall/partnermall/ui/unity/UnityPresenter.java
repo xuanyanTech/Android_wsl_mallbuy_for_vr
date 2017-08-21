@@ -160,6 +160,7 @@ class UnityPresenter extends BasePresenter<UnityView> {
         String jsonStr = new Gson().toJson(info);
         EventBus.getDefault().postSticky(new PhotoPathEvent(jsonStr, data));
         getMvpView().showView();
+        getMvpView().showModelView();
     }
 
 
@@ -181,7 +182,10 @@ class UnityPresenter extends BasePresenter<UnityView> {
             info.setPath(filePath);
             String jsonStr = new Gson().toJson(info);
             EventBus.getDefault().postSticky(new PhotoPathEvent(jsonStr, entity.getGiftData()));
-            getMvpView().hiddenView();
+            if (info.getType().equals("1"))
+                getMvpView().hiddenView();
+            else
+                getMvpView().showModelView();
             goOn = false;
         }
         if (goOn) {

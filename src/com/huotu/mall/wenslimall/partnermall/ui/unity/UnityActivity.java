@@ -53,6 +53,8 @@ public class UnityActivity extends BaseActivity implements UnityView {
     ImageView openPhoto;
     @Bind(R.id.take_pictures)
     ImageView takePictures;
+    @Bind(R.id.unity_model_back)
+    ImageView unityModelBack;
 
     private SoundPool soundPool;//声明一个SoundPool
     private int soundID;//创建某个声音对应的音频ID
@@ -111,7 +113,7 @@ public class UnityActivity extends BaseActivity implements UnityView {
         startActivityForResult(intent, IMAGE_REQUEST_CODE);//调用相册照片
     }
 
-    @OnClick({R.id.unity_back, R.id.open_photo, R.id.take_pictures})
+    @OnClick({R.id.unity_back, R.id.open_photo, R.id.take_pictures, R.id.unity_model_back})
     public void onViewClicked(View view) {
         if (ClickFilter.isFastClick()) {
             return;
@@ -126,6 +128,10 @@ public class UnityActivity extends BaseActivity implements UnityView {
             case R.id.take_pictures:
                 playSound();
                 UnityPlayer.UnitySendMessage("GameManager", "OnPhotoClick", DateUtils.newDate());
+                break;
+            case R.id.unity_model_back:
+                UnityPlayer.UnitySendMessage("GameManager", "ReturnScanePage", "");
+                hiddenModelView();
                 break;
         }
     }
@@ -282,7 +288,7 @@ public class UnityActivity extends BaseActivity implements UnityView {
                             File[] files = mRxDownload.getRealFiles(url);
                             if (files != null) {
                                 File file = files[0];
-                               if (type.equals(Event.VIDEO))
+                                if (type.equals(Event.VIDEO))
                                     presenter.videoToUnity(file.getPath(), data);
                                 else if (type.equals(Event.MODEL))
                                     presenter.unzip(file.getPath(), Event.AR_FILE, data);
@@ -297,6 +303,7 @@ public class UnityActivity extends BaseActivity implements UnityView {
         unityBack.setVisibility(View.GONE);
         openPhoto.setVisibility(View.GONE);
         takePictures.setVisibility(View.GONE);
+        unityModelBack.setVisibility(View.GONE);
     }
 
     @Override
@@ -304,6 +311,18 @@ public class UnityActivity extends BaseActivity implements UnityView {
         unityBack.setVisibility(View.VISIBLE);
         openPhoto.setVisibility(View.VISIBLE);
         takePictures.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showModelView() {
+        unityBack.setVisibility(View.GONE);
+        unityModelBack.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hiddenModelView() {
+        unityBack.setVisibility(View.VISIBLE);
+        unityModelBack.setVisibility(View.GONE);
     }
 
 }

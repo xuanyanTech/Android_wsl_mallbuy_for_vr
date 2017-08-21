@@ -1145,7 +1145,10 @@ public class HomeActivity extends BaseActivity
 
     @OnClick(R.id.titleRightText)
     public void onViewClicked() {
-        startActivity(new Intent(this, UnityActivity.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            startActivity(new Intent(this, UnityActivity.class));
+        else
+            ToastUtils.showShortToast("您的系统版本过低，暂时不支持");
     }
 
     static class MyBindWeiXinListener implements Response.Listener<PhoneLoginModel> {
