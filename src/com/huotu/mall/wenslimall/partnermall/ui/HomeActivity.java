@@ -1160,6 +1160,7 @@ public class HomeActivity extends BaseActivity
             weixinModel = model;
         }
 
+
         @Override
         public void onResponse(PhoneLoginModel phoneLoginModel) {
             if (ref.get() == null) return;
