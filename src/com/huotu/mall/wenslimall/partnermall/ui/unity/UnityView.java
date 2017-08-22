@@ -15,7 +15,10 @@ interface UnityView extends MvpView {
 
     void showView();
 
+<<<<<<< HEAD
     void showModelView();
 
     void hiddenModelView();
+=======
+>>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
 }

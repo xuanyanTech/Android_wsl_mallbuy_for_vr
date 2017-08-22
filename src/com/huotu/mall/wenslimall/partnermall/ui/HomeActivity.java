@@ -1160,7 +1160,6 @@ public class HomeActivity extends BaseActivity
             weixinModel = model;
         }
 
-
         @Override
         public void onResponse(PhoneLoginModel phoneLoginModel) {
             if (ref.get() == null) return;
@@ -1436,295 +1435,301 @@ public class HomeActivity extends BaseActivity
         VolleyUtil.getRequestQueue().add(request);
     }
 
-    private static class MyGetUserInfoListener implements Response.Listener<AuthMallModel> {
-        WeakReference<HomeActivity> ref;
+<<<<<<<HEAD
 
-        MyGetUserInfoListener(HomeActivity act) {
-            ref = new WeakReference<>(act);
+    private static class MyGetUserInfoListener implements Response.Listener<AuthMallModel> {
+=======
+
+        static class MyGetUserInfoListener implements Response.Listener<AuthMallModel> {
+>>>>>>>06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
+            WeakReference<HomeActivity> ref;
+
+            MyGetUserInfoListener(HomeActivity act) {
+                ref = new WeakReference<>(act);
+            }
+
+            @Override
+            public void onResponse(AuthMallModel authMallModel) {
+                if (ref.get() == null) return;
+                if (ref.get().progress != null) {
+                    ref.get().progress.dismissView();
+                }
+                if (authMallModel == null) {
+                    ToastUtils.showShortToast(ref.get(), "获取用户数据失败");
+                    return;
+                }
+                if (authMallModel.getCode() != 200) {
+                    String msg = "获取用户数据失败";
+                    if (!TextUtils.isEmpty(authMallModel.getMsg())) {
+                        msg = authMallModel.getMsg();
+                    }
+                    ToastUtils.showShortToast(ref.get(), msg);
+                    return;
+                }
+                if (authMallModel.getData() == null) {
+                    ToastUtils.showShortToast(ref.get(), "获取用户数据失败");
+                    return;
+                }
+
+                //ToastUtils.showShortToast(ref.get(), "获取用户数据成功");
+
+
+                BaseApplication.single.clearAllCookies();
+
+
+                EventBus.getDefault().post(new CloseEvent());
+
+                //更新userId
+                BaseApplication.single.writeMemberId(String.valueOf(authMallModel.getData().getUserid()));
+                //更新昵称
+                BaseApplication.single.writeUserName(authMallModel.getData().getNickName());
+                BaseApplication.single.writeUserIcon(authMallModel.getData().getHeadImgUrl());
+                BaseApplication.single.writeUserUnionId(authMallModel.getData().getUnionId());
+                BaseApplication.single.writeMemberLevel(authMallModel.getData().getLevelName());
+
+                //记录微信关联类型（0-手机帐号还未关联微信,1-微信帐号还未绑定手机,2-已经有关联帐号）
+                BaseApplication.single.writeMemberRelatedType(authMallModel.getData().getRelatedType());
+
+                //更新界面
+                ref.get().userName.setText(authMallModel.getData().getNickName());
+                //ref.getge().userType.setText(authMallModel.getData().getLevelName());
+                ref.get().showAccountType(authMallModel.getData().getLevelName());
+
+                String logoUrl = authMallModel.getData().getHeadImgUrl();
+
+                //new LoadLogoImageAyscTask ( ref.get().resources , ref.get().userLogo  , authMallModel.getData().getHeadImgUrl(), R.drawable.ic_login_username ).execute();
+                ref.get().userLogo.setImageURI(authMallModel.getData().getHeadImgUrl());
+
+                //动态加载侧滑菜单
+                //UIUtils ui = new UIUtils ( BaseApplication.single , ref.get() , ref.get().resources , ref.get().mainMenuLayout , ref.get().mHandler );
+                //ui.loadMenus();
+
+
+                String usercenterUrl = BaseApplication.single.obtainMerchantUrl() + "/" + Constants.URL_PERSON_INDEX + "?customerid=" + BaseApplication.single.readMerchantId();
+
+
+                ref.get().signHeader();
+
+                //AuthParamUtils authParamUtils =new AuthParamUtils( BaseApplication.single , System.currentTimeMillis(), usercenterUrl , ref.get() );
+                //usercenterUrl = authParamUtils.obtainUrl();
+
+
+                ref.get().pageWeb.loadUrl(usercenterUrl, SignUtil.signHeader());
+
+            }
+        }
+
+
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onEventRefreshLeftMenu(RefreshMenuEvent event) {
+            mainMenuLayout.removeAllViews();
+            UIUtils ui = new UIUtils(BaseApplication.single, this, resources, mainMenuLayout, mHandler);
+            ui.loadMenus();
+        }
+
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onEventRefreshHttpHeader(RefreshHttpHeaderEvent event) {
+            if (pageWeb == null) return;
+            signHeader(pageWeb);
+            //if(menuView==null) return;
+            //signHeader(menuView);
+            //String menuUrl = application.obtainMerchantUrl () + "/bottom.aspx?customerid=" + application.readMerchantId ();
+            //menuView.loadUrl(menuUrl , SignUtil.signHeader() );
+        }
+
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onEventGoIndex(final GoIndexEvent event) {
+            if (pageWeb == null) return;
+
+            String url = application.obtainMerchantUrl().toLowerCase();
+            if (!url.startsWith("http://")) {
+                url = "http://" + url;
+            }
+
+            //mHandler.sendEmptyMessage( Constants.LEFT_IMG_SIDE);
+
+            pageWeb.clearHistory();
+            pageWeb.loadUrl(url, SignUtil.signHeader());
+        }
+
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onEventBind(BindEvent event) {
+            if (event.isBindWeiXin()) {
+                callWeixin(event.getRedirectUrl());
+            } else {
+                //callPhone();
+            }
+        }
+
+
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onEventRefreshPage(RefreshPageEvent event) {
+            if (!event.isRefreshMainUI()) return;
+
+            pageWeb.reload();
+        }
+
+        @Subscribe(threadMode = ThreadMode.MAIN)
+        public void onEventRefresMessage(final RefreshMessageEvent event) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (footerOneWidget == null) return;
+                    BaseApplication.single.unReadMessageCount = event.isHasMessage() ? 1 : 0;
+                    footerOneWidget.showCircleView(event.isHasMessage());
+                }
+            }, 1500);
         }
 
         @Override
-        public void onResponse(AuthMallModel authMallModel) {
-            if (ref.get() == null) return;
-            if (ref.get().progress != null) {
-                ref.get().progress.dismissView();
-            }
-            if (authMallModel == null) {
-                ToastUtils.showShortToast(ref.get(), "获取用户数据失败");
-                return;
-            }
-            if (authMallModel.getCode() != 200) {
-                String msg = "获取用户数据失败";
-                if (!TextUtils.isEmpty(authMallModel.getMsg())) {
-                    msg = authMallModel.getMsg();
+        public void onGlobalLayout() {
+            try {
+                final int softKeyboardHeight = 100;
+                Rect r = new Rect();
+                View rootView = pageWeb.getRootView();
+                rootView.getWindowVisibleDisplayFrame(r);
+                DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+                int heightDiff = rootView.getBottom() - r.bottom;
+                boolean isShow = heightDiff > softKeyboardHeight * dm.density;
+                if (isShow) {
+                    loadMenuView.setVisibility(View.GONE);
+                } else {
+                    loadMenuView.setVisibility(View.VISIBLE);
                 }
-                ToastUtils.showShortToast(ref.get(), msg);
-                return;
-            }
-            if (authMallModel.getData() == null) {
-                ToastUtils.showShortToast(ref.get(), "获取用户数据失败");
-                return;
-            }
-
-            //ToastUtils.showShortToast(ref.get(), "获取用户数据成功");
-
-
-            BaseApplication.single.clearAllCookies();
-
-
-            EventBus.getDefault().post(new CloseEvent());
-
-            //更新userId
-            BaseApplication.single.writeMemberId(String.valueOf(authMallModel.getData().getUserid()));
-            //更新昵称
-            BaseApplication.single.writeUserName(authMallModel.getData().getNickName());
-            BaseApplication.single.writeUserIcon(authMallModel.getData().getHeadImgUrl());
-            BaseApplication.single.writeUserUnionId(authMallModel.getData().getUnionId());
-            BaseApplication.single.writeMemberLevel(authMallModel.getData().getLevelName());
-
-            //记录微信关联类型（0-手机帐号还未关联微信,1-微信帐号还未绑定手机,2-已经有关联帐号）
-            BaseApplication.single.writeMemberRelatedType(authMallModel.getData().getRelatedType());
-
-            //更新界面
-            ref.get().userName.setText(authMallModel.getData().getNickName());
-            //ref.getge().userType.setText(authMallModel.getData().getLevelName());
-            ref.get().showAccountType(authMallModel.getData().getLevelName());
-
-            String logoUrl = authMallModel.getData().getHeadImgUrl();
-
-            //new LoadLogoImageAyscTask ( ref.get().resources , ref.get().userLogo  , authMallModel.getData().getHeadImgUrl(), R.drawable.ic_login_username ).execute();
-            ref.get().userLogo.setImageURI(authMallModel.getData().getHeadImgUrl());
-
-            //动态加载侧滑菜单
-            //UIUtils ui = new UIUtils ( BaseApplication.single , ref.get() , ref.get().resources , ref.get().mainMenuLayout , ref.get().mHandler );
-            //ui.loadMenus();
-
-
-            String usercenterUrl = BaseApplication.single.obtainMerchantUrl() + "/" + Constants.URL_PERSON_INDEX + "?customerid=" + BaseApplication.single.readMerchantId();
-
-
-            ref.get().signHeader();
-
-            //AuthParamUtils authParamUtils =new AuthParamUtils( BaseApplication.single , System.currentTimeMillis(), usercenterUrl , ref.get() );
-            //usercenterUrl = authParamUtils.obtainUrl();
-
-
-            ref.get().pageWeb.loadUrl(usercenterUrl, SignUtil.signHeader());
-
-        }
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventRefreshLeftMenu(RefreshMenuEvent event) {
-        mainMenuLayout.removeAllViews();
-        UIUtils ui = new UIUtils(BaseApplication.single, this, resources, mainMenuLayout, mHandler);
-        ui.loadMenus();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventRefreshHttpHeader(RefreshHttpHeaderEvent event) {
-        if (pageWeb == null) return;
-        signHeader(pageWeb);
-        //if(menuView==null) return;
-        //signHeader(menuView);
-        //String menuUrl = application.obtainMerchantUrl () + "/bottom.aspx?customerid=" + application.readMerchantId ();
-        //menuView.loadUrl(menuUrl , SignUtil.signHeader() );
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventGoIndex(final GoIndexEvent event) {
-        if (pageWeb == null) return;
-
-        String url = application.obtainMerchantUrl().toLowerCase();
-        if (!url.startsWith("http://")) {
-            url = "http://" + url;
-        }
-
-        //mHandler.sendEmptyMessage( Constants.LEFT_IMG_SIDE);
-
-        pageWeb.clearHistory();
-        pageWeb.loadUrl(url, SignUtil.signHeader());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventBind(BindEvent event) {
-        if (event.isBindWeiXin()) {
-            callWeixin(event.getRedirectUrl());
-        } else {
-            //callPhone();
-        }
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventRefreshPage(RefreshPageEvent event) {
-        if (!event.isRefreshMainUI()) return;
-
-        pageWeb.reload();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventRefresMessage(final RefreshMessageEvent event) {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (footerOneWidget == null) return;
-                BaseApplication.single.unReadMessageCount = event.isHasMessage() ? 1 : 0;
-                footerOneWidget.showCircleView(event.isHasMessage());
-            }
-        }, 1500);
-    }
-
-    @Override
-    public void onGlobalLayout() {
-        try {
-            final int softKeyboardHeight = 100;
-            Rect r = new Rect();
-            View rootView = pageWeb.getRootView();
-            rootView.getWindowVisibleDisplayFrame(r);
-            DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
-            int heightDiff = rootView.getBottom() - r.bottom;
-            boolean isShow = heightDiff > softKeyboardHeight * dm.density;
-            if (isShow) {
-                loadMenuView.setVisibility(View.GONE);
-            } else {
+            } catch (Exception ex) {
                 loadMenuView.setVisibility(View.VISIBLE);
             }
-        } catch (Exception ex) {
-            loadMenuView.setVisibility(View.VISIBLE);
         }
-    }
 
 
-    void dealAliPayResult(Message msg) {
-        AliPayResultV2 result = (AliPayResultV2) msg.obj;
-        /**
-         * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
-         * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
-         * docType=1) 建议商户依赖异步通知
-         */
-        String resultInfo = result.getResult();// 同步返回需要验证的信息
-        String resultStatus = result.getResultStatus();
-        // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
-        if (TextUtils.equals(resultStatus, "9000")) {
-            Toast.makeText(HomeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-            String orderNo = result.getAliOrderInfo().getOrderNo();
-            String urlString = String.format(Constants.URL_PaySuccess, application.obtainMerchantUrl(), application.readMerchantId(), orderNo);
-            pageWeb.loadUrl(urlString);
-        } else {
-            // 判断resultStatus 为非"9000"则代表可能支付失败
-            // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-            if (TextUtils.equals(resultStatus, "8000")) {
-                Toast.makeText(HomeActivity.this, "支付结果确认中", Toast.LENGTH_SHORT).show();
-                gotoOrderList();
+        void dealAliPayResult(Message msg) {
+            AliPayResultV2 result = (AliPayResultV2) msg.obj;
+            /**
+             * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
+             * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
+             * docType=1) 建议商户依赖异步通知
+             */
+            String resultInfo = result.getResult();// 同步返回需要验证的信息
+            String resultStatus = result.getResultStatus();
+            // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+            if (TextUtils.equals(resultStatus, "9000")) {
+                Toast.makeText(HomeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                String orderNo = result.getAliOrderInfo().getOrderNo();
+                String urlString = String.format(Constants.URL_PaySuccess, application.obtainMerchantUrl(), application.readMerchantId(), orderNo);
+                pageWeb.loadUrl(urlString);
             } else {
-                // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                Toast.makeText(HomeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
-                gotoOrderList();
+                // 判断resultStatus 为非"9000"则代表可能支付失败
+                // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+                if (TextUtils.equals(resultStatus, "8000")) {
+                    Toast.makeText(HomeActivity.this, "支付结果确认中", Toast.LENGTH_SHORT).show();
+                    gotoOrderList();
+                } else {
+                    // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+                    Toast.makeText(HomeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                    gotoOrderList();
+                }
             }
         }
-    }
 
-    void dealWeiXinPayResult(Message msg) {
-        WeiXinPayResult result = (WeiXinPayResult) msg.obj;
-        if (result != null && result.getCode() == WeiXinPayUtil.FAIL) {
-            Toast.makeText(getApplication(), result.getMessage(), Toast.LENGTH_LONG).show();
-            return;
-        } else if (result != null) {
+        void dealWeiXinPayResult(Message msg) {
+            WeiXinPayResult result = (WeiXinPayResult) msg.obj;
+            if (result != null && result.getCode() == WeiXinPayUtil.FAIL) {
+                Toast.makeText(getApplication(), result.getMessage(), Toast.LENGTH_LONG).show();
+                return;
+            } else if (result != null) {
 //            if(pageWeb !=null) {
 //                String orderNo = result.getOrderInfo().getOrderNo();
 //                String urlString = String.format( Constants.URL_PaySuccess , application.obtainMerchantUrl(), application.readMerchantId() , orderNo );
 //                pageWeb.loadUrl(urlString);
 //            }
-        }
-    }
-
-    /***
-     * js调用android的方法，设置未读消息数量
-     * @param msgCount
-     */
-    @JavascriptInterface
-    public void setUnReadMessageCount(int msgCount) {
-        BaseApplication.single.unReadMessageCount = msgCount;
-    }
-
-    @JavascriptInterface
-    public void setJavascriptError(String error) {
-        Log.e("HomeActivity", error);
-        //ToastUtils.showLongToast(error);
-    }
-
-
-    @Override
-    public void onFinishReceiver(MyBroadcastReceiver.ReceiverType type, Object msg) {
-        if (type == MyBroadcastReceiver.ReceiverType.wxPaySuccess) {
-            //viewPage.goBack();
-            if (msg == null) return;
-            Bundle bundle = (Bundle) msg;
-            if (bundle == null) return;
-            WxPaySuccessCallbackModel data = (WxPaySuccessCallbackModel) bundle.getSerializable(Constants.HUOTU_PAY_CALLBACK_KEY);
-            if (data == null) return;
-            String orderNo = data.getOrderNo();
-            if (pageWeb != null) {
-                String urlString = String.format(Constants.URL_PaySuccess, application.obtainMerchantUrl(), application.readMerchantId(), orderNo);
-                pageWeb.loadUrl(urlString, SignUtil.signHeader());
             }
-        } else if (type == MyBroadcastReceiver.ReceiverType.wxPayCancel || type == MyBroadcastReceiver.ReceiverType.wxPayError) {
-            if (mHandler == null) return;
-            Message uiMessage = mHandler.obtainMessage(Constants.Message_GotoOrderList);
-            mHandler.sendMessage(uiMessage);
-        }
-    }
-
-
-    @Override
-    public boolean onLongClick(View v) {
-
-        final WebView.HitTestResult htr = pageWeb.getHitTestResult();//获取所点击的内容
-        if (htr == null) return false;
-        if (htr.getType() == WebView.HitTestResult.IMAGE_TYPE || htr.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {//判断被点击的类型为图片
-            String url = htr.getExtra();
-            showDialog(url);
         }
 
-        return false;
-    }
+        /***
+         * js调用android的方法，设置未读消息数量
+         * @param msgCount
+         */
+        @JavascriptInterface
+        public void setUnReadMessageCount(int msgCount) {
+            BaseApplication.single.unReadMessageCount = msgCount;
+        }
+
+        @JavascriptInterface
+        public void setJavascriptError(String error) {
+            Log.e("HomeActivity", error);
+            //ToastUtils.showLongToast(error);
+        }
 
 
-    /**
-     * 显示Dialog
-     * param v
-     */
-    private void showDialog(final String url) {
+        @Override
+        public void onFinishReceiver(MyBroadcastReceiver.ReceiverType type, Object msg) {
+            if (type == MyBroadcastReceiver.ReceiverType.wxPaySuccess) {
+                //viewPage.goBack();
+                if (msg == null) return;
+                Bundle bundle = (Bundle) msg;
+                if (bundle == null) return;
+                WxPaySuccessCallbackModel data = (WxPaySuccessCallbackModel) bundle.getSerializable(Constants.HUOTU_PAY_CALLBACK_KEY);
+                if (data == null) return;
+                String orderNo = data.getOrderNo();
+                if (pageWeb != null) {
+                    String urlString = String.format(Constants.URL_PaySuccess, application.obtainMerchantUrl(), application.readMerchantId(), orderNo);
+                    pageWeb.loadUrl(urlString, SignUtil.signHeader());
+                }
+            } else if (type == MyBroadcastReceiver.ReceiverType.wxPayCancel || type == MyBroadcastReceiver.ReceiverType.wxPayError) {
+                if (mHandler == null) return;
+                Message uiMessage = mHandler.obtainMessage(Constants.Message_GotoOrderList);
+                mHandler.sendMessage(uiMessage);
+            }
+        }
 
-        final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.custom_item_dialog);
-        //adapter.add("发送给朋友");
-        adapter.add("保存到手机");
+
+        @Override
+        public boolean onLongClick(View v) {
+
+            final WebView.HitTestResult htr = pageWeb.getHitTestResult();//获取所点击的内容
+            if (htr == null) return false;
+            if (htr.getType() == WebView.HitTestResult.IMAGE_TYPE || htr.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE) {//判断被点击的类型为图片
+                String url = htr.getExtra();
+                showDialog(url);
+            }
+
+            return false;
+        }
 
 
-        customDialog = new CustomDialog(this) {
-            @Override
-            public void initViews() {
-                // 初始CustomDialog化控件
-                ListView mListView = (ListView) findViewById(R.id.lv_dialog);
-                mListView.setAdapter(adapter);
-                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /**
+         * 显示Dialog
+         * param v
+         */
+        private void showDialog(final String url) {
 
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // 点击事件
-                        switch (position) {
-                            case 0:
-                                downloadImage(HomeActivity.this, url);
-                                closeDialog();
-                                //sendToFriends( HomeActivity.this , url );//把图片发送给好友
-                                //closeDialog();
-                                break;
-                            //case 1:
-                            //saveImageToGallery(MainActivity.this);
+            final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.custom_item_dialog);
+            //adapter.add("发送给朋友");
+            adapter.add("保存到手机");
 
-                            //break;
+
+            customDialog = new CustomDialog(this) {
+                @Override
+                public void initViews() {
+                    // 初始CustomDialog化控件
+                    ListView mListView = (ListView) findViewById(R.id.lv_dialog);
+                    mListView.setAdapter(adapter);
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // 点击事件
+                            switch (position) {
+                                case 0:
+                                    downloadImage(HomeActivity.this, url);
+                                    closeDialog();
+                                    //sendToFriends( HomeActivity.this , url );//把图片发送给好友
+                                    //closeDialog();
+                                    break;
+                                //case 1:
+                                //saveImageToGallery(MainActivity.this);
+
+                                //break;
 //                            case 2:
 //                                Toast.makeText(MainActivity.this, "已收藏", Toast.LENGTH_LONG).show();
 //                                closeDialog();
@@ -1733,70 +1738,70 @@ public class HomeActivity extends BaseActivity
 //                                goIntent();
 //                                closeDialog();
 //                                break;
+                            }
+
                         }
-
-                    }
-                });
-            }
-        };
-
-        customDialog.show();
-    }
-
-    protected void downloadImage(Context context, String url) {
-        FrescoUtils.downloadImage(context, url, new IDownloadResult(context) {
-            @Override
-            public void onResult(String filePath) {
-                if (filePath == null) {
-                    Message msg = mHandler.obtainMessage(Constants.MESSAGE_DOWNLOADIMAGE_FAIL);
-                    mHandler.sendMessage(msg);
-                } else {
-                    Message msg = mHandler.obtainMessage(Constants.MESSAGE_DOWNLOADIMAGE_SUCCESS);
-                    msg.obj = filePath;
-                    mHandler.sendMessage(msg);
+                    });
                 }
-            }
-        });
-    }
+            };
 
-    /**
-     * 先保存到本地再广播到图库
-     */
-    public void saveImageToGallery(String imagePath) {
-        // 其次把文件插入到系统图库
-        try {
-            MediaStore.Images.Media.insertImage(BaseApplication.single.getContentResolver(), imagePath, "code", null);
-            // 最后通知图库更新
-            BaseApplication.single.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imagePath)));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            customDialog.show();
         }
-    }
 
-    /***
-     * 清除VR缓存
-     */
-    public void clearVRCache() {
-        showClearInfo();
-    }
+        protected void downloadImage(Context context, String url) {
+            FrescoUtils.downloadImage(context, url, new IDownloadResult(context) {
+                @Override
+                public void onResult(String filePath) {
+                    if (filePath == null) {
+                        Message msg = mHandler.obtainMessage(Constants.MESSAGE_DOWNLOADIMAGE_FAIL);
+                        mHandler.sendMessage(msg);
+                    } else {
+                        Message msg = mHandler.obtainMessage(Constants.MESSAGE_DOWNLOADIMAGE_SUCCESS);
+                        msg.obj = filePath;
+                        mHandler.sendMessage(msg);
+                    }
+                }
+            });
+        }
 
-    public void showClearInfo() {
-        String fileSize = FileSizeUtil.getAutoFileOrFilesSize(Event.WSL_FILE);
-        final TipAlertDialog tipAlertDialog = new TipAlertDialog(this, true);
-        tipAlertDialog.show("询问", "缓存视频有" + fileSize + "确定清除?", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipAlertDialog.dismiss();
+        /**
+         * 先保存到本地再广播到图库
+         */
+        public void saveImageToGallery(String imagePath) {
+            // 其次把文件插入到系统图库
+            try {
+                MediaStore.Images.Media.insertImage(BaseApplication.single.getContentResolver(), imagePath, "code", null);
+                // 最后通知图库更新
+                BaseApplication.single.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imagePath)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tipAlertDialog.dismiss();
-                Helper.delete(new File(Event.AR_FILE));
-                ToastUtils.showShortToast(getApplicationContext(), "清除完成！");
-            }
-        });
-    }
+        }
 
-}
+        /***
+         * 清除VR缓存
+         */
+        public void clearVRCache() {
+            showClearInfo();
+        }
+
+        public void showClearInfo() {
+            String fileSize = FileSizeUtil.getAutoFileOrFilesSize(Event.WSL_FILE);
+            final TipAlertDialog tipAlertDialog = new TipAlertDialog(this, true);
+            tipAlertDialog.show("询问", "缓存视频有" + fileSize + "确定清除?", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tipAlertDialog.dismiss();
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tipAlertDialog.dismiss();
+                    Helper.delete(new File(Event.AR_FILE));
+                    ToastUtils.showShortToast(getApplicationContext(), "清除完成！");
+                }
+            });
+        }
+
+    }
 

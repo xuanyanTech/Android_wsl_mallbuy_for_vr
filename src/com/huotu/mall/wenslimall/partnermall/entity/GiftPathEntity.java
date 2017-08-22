@@ -27,7 +27,10 @@ public class GiftPathEntity {
         data.setImageUrl(img_url);
         data.setDownloadUrl(ar_url);
         data.setId(id);
+<<<<<<< HEAD
         data.setAr_name(ar_name);
+=======
+>>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
         return data;
     }
 
@@ -42,6 +45,7 @@ public class GiftPathEntity {
     private String img_url;
     private String ar_url;
     private String h5_url;
+<<<<<<< HEAD
     private String ar_name;
 
     public String getAr_name() {
@@ -51,6 +55,8 @@ public class GiftPathEntity {
     public void setAr_name(String ar_name) {
         this.ar_name = ar_name;
     }
+=======
+>>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
 
     public int getId() {
         return id;

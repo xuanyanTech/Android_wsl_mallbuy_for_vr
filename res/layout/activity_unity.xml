@@ -26,7 +26,6 @@
         android:layout_margin="30dp"
         android:src="@drawable/unity_back" />
 
-
     <ImageView
         android:id="@+id/open_photo"
         android:layout_width="wrap_content"

@@ -1,9 +1,0 @@
-# ninja log v5
-1	684	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	5cebf140373ec62f
-684	818	0	../../../../build/intermediates/cmake/wenslimall/debug/obj/mips64/libseecool.so	7734d627d918a943
-0	756	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	5cebf140373ec62f
-756	894	0	../../../../build/intermediates/cmake/wenslimall/debug/obj/mips64/libseecool.so	7734d627d918a943
-16	910	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	5cebf140373ec62f
-910	986	0	../../../../build/intermediates/cmake/wenslimall/debug/obj/mips64/libseecool.so	7734d627d918a943
-0	731	0	CMakeFiles/seecool.dir/cpp/seecool.cpp.o	5cebf140373ec62f
-731	843	0	../../../../build/intermediates/cmake/wenslimall/debug/obj/mips64/libseecool.so	7734d627d918a943
