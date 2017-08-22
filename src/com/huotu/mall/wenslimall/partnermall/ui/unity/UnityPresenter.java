@@ -116,18 +116,11 @@ class UnityPresenter extends BasePresenter<UnityView> {
         }
         File zipFile = new File(zipFilePath);
         /**创建解压缩文件保存的路径*/
-<<<<<<< HEAD
         unzipFilePath = unzipFilePath + data.getId();
-=======
->>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
         File unzipFileDir = new File(unzipFilePath);
         if (!unzipFileDir.exists()) {
             unzipFileDir.mkdirs();
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
         //开始解压
         ZipEntry entry = null;
         String entryFilePath = null;
@@ -137,10 +130,6 @@ class UnityPresenter extends BasePresenter<UnityView> {
         BufferedOutputStream bos = null;
         ZipFile zip = new ZipFile(zipFile);
         Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zip.entries();
-<<<<<<< HEAD
-
-=======
->>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
         //循环对压缩包里的每一个文件进行解压
         while (entries.hasMoreElements()) {
             entry = entries.nextElement();
@@ -169,16 +158,12 @@ class UnityPresenter extends BasePresenter<UnityView> {
         String jsonStr = new Gson().toJson(info);
         EventBus.getDefault().postSticky(new PhotoPathEvent(jsonStr, data));
         getMvpView().showView();
-<<<<<<< HEAD
         getMvpView().showModelView();
-=======
->>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
     }
 
 
     private void checkUrl(Context mContext, GiftPathEntity entity) {
         boolean goOn = true;
-<<<<<<< HEAD
         String fileType = entity.getAr_url()
                 .substring(entity.getAr_url().lastIndexOf("."), entity.getAr_url().length());
         fileType = fileType.contains(".zip") ? "" : fileType;
@@ -199,38 +184,18 @@ class UnityPresenter extends BasePresenter<UnityView> {
                 getMvpView().hiddenView();
             else
                 getMvpView().showModelView();
-=======
-        String filePath = Event.AR_FILE + entity.getId() + entity.getAr_url()
-                .substring(entity.getAr_url().lastIndexOf("."), entity.getAr_url().length());
-        boolean is = Helper.fileIsExists(filePath);
-        if (is) {
-            info.setModelName(entity.getName());
-            String type = "1";
-            if (entity.getAr_type().equals("video")) {
-                type = "1";
-            } else if (entity.getAr_type().equals("model")) {
-                type = "0";
-            }
-            info.setType(type);
-            info.setPath(filePath);
-            String jsonStr = new Gson().toJson(info);
-            EventBus.getDefault().postSticky(new PhotoPathEvent(jsonStr, entity.getGiftData()));
-            getMvpView().hiddenView();
->>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
+
             goOn = false;
         }
         if (goOn) {
             download(mContext, entity.getAr_url(), entity.getId());
             getMvpView().checkFile(entity.getAr_url(), entity.getAr_type(), entity.getGiftData());
-<<<<<<< HEAD
-=======
             if (entity.getAr_type().equals(Event.VIDEO)) {
                 info.setType("1");
             } else if (entity.getAr_type().equals(Event.MODEL)) {
                 info.setType("0");
             }
             info.setModelName(entity.getName());
->>>>>>> 06b70125fbd8b8c25e3f55c4f3c7f7bc3b06a613
         }
     }
 }
