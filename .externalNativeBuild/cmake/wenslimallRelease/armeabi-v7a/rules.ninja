@@ -42,7 +42,7 @@ rule CXX_SHARED_LIBRARY_LINKER__seecool
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake -H/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master -B/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a
+  command = /Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake -H/Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master -B/Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a
   description = Re-running CMake...
   generator = 1
 

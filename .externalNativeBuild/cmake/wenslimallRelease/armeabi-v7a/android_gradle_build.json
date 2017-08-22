@@ -2,11 +2,11 @@
 {
 	"buildFiles" : 
 	[
-		"/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/CMakeLists.txt"
+		"/Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master/CMakeLists.txt"
 	],
 	"cleanCommands" : 
 	[
-		"/Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake --build /Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a --target clean"
+		"/Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake --build /Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a --target clean"
 	],
 	"cppFileExtensions" : [ "cpp" ],
 	"libraries" : 
@@ -15,18 +15,18 @@
 		{
 			"abi" : "armeabi-v7a",
 			"artifactName" : "seecool",
-			"buildCommand" : "/Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake --build /Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a --target seecool",
+			"buildCommand" : "/Users/Shoon/Library/Android/sdk/cmake/3.6.3155560/bin/cmake --build /Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a --target seecool",
 			"buildType" : "release",
 			"files" : 
 			[
 				
 				{
 					"flags" : "  --target=armv7-none-linux-androideabi --gcc-toolchain=/Users/Shoon/Library/Android/sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/Shoon/Library/Android/sdk/ndk-bundle/sysroot  -Dseecool_EXPORTS -isystem /Users/Shoon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /Users/Shoon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi-v7a/include -isystem /Users/Shoon/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem /Users/Shoon/Library/Android/sdk/ndk-bundle/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=9 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -Os -DNDEBUG  -fPIC    -c ",
-					"src" : "/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/cpp/seecool.cpp",
-					"workingDirectory" : "/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a"
+					"src" : "/Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master/cpp/seecool.cpp",
+					"workingDirectory" : "/Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master/.externalNativeBuild/cmake/wenslimallRelease/armeabi-v7a"
 				}
 			],
-			"output" : "/Users/Shoon/Downloads/Android_wsl_mallbuy_for_vr-master/build/intermediates/cmake/wenslimall/release/obj/armeabi-v7a/libseecool.so",
+			"output" : "/Users/Shoon/Files/Android/dev/Android_wsl_mallbuy_for_vr-master/build/intermediates/cmake/wenslimall/release/obj/armeabi-v7a/libseecool.so",
 			"toolchain" : "10408915724308246823"
 		}
 	},
